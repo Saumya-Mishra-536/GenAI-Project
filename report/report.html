@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EV Charging Demand Prediction – Milestone 1 Report</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:Georgia,serif; font-size:12pt; line-height:1.7; background:#f0f0eb; color:#1a1a1a; }
+.page { width:210mm; min-height:297mm; margin:20px auto; background:white; padding:22mm 20mm; box-shadow:0 4px 20px rgba(0,0,0,0.15); }
+.title-page { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:260mm; text-align:center; }
+.institution { font-size:10pt; letter-spacing:2px; text-transform:uppercase; color:#666; margin-bottom:8mm; }
+.report-label { font-size:9pt; letter-spacing:3px; text-transform:uppercase; color:#999; border:1px solid #ccc; padding:4px 14px; margin-bottom:10mm; }
+.main-title { font-size:22pt; font-weight:700; line-height:1.3; color:#1a1a2e; max-width:140mm; margin-bottom:4mm; }
+.subtitle { font-size:13pt; color:#555; font-style:italic; margin-bottom:16mm; }
+.divider { width:60mm; height:2px; background:#2980b9; margin:0 auto 16mm; }
+.team-block { background:#f8f9fa; border-left:4px solid #2980b9; padding:8mm 10mm; text-align:left; width:120mm; margin-bottom:12mm; }
+.team-block h3 { font-size:9pt; letter-spacing:2px; text-transform:uppercase; color:#888; margin-bottom:4mm; }
+.team-block p { font-size:11pt; line-height:1.9; color:#2c3e50; }
+.meta-row { display:flex; gap:20mm; font-size:10pt; color:#666; }
+.abstract-box { border:1px solid #bbb; padding:6mm 8mm; margin:8mm 0 10mm 0; background:#fdfdfd; }
+.abstract-box h2 { font-size:10pt; letter-spacing:2px; text-transform:uppercase; text-align:center; margin-bottom:4mm; color:#333; }
+.abstract-box p { font-size:10.5pt; text-align:justify; }
+h1.section { font-size:14pt; font-weight:700; color:#1a1a2e; border-bottom:1.5px solid #2980b9; padding-bottom:2mm; margin:10mm 0 5mm 0; }
+h2.subsection { font-size:12pt; font-weight:700; color:#2c3e50; margin:6mm 0 3mm 0; }
+p { text-align:justify; margin-bottom:3mm; }
+table { width:100%; border-collapse:collapse; margin:5mm 0; font-size:10.5pt; }
+caption { font-size:10pt; font-style:italic; color:#555; margin-bottom:2mm; text-align:center; }
+th { background:#2c3e50; color:white; padding:6px 10px; text-align:left; font-size:10pt; }
+td { padding:5px 10px; border-bottom:1px solid #ddd; }
+tr:nth-child(even) td { background:#f4f6f8; }
+code { font-family:monospace; font-size:9.5pt; background:#f0f0f0; padding:1px 5px; border-radius:3px; color:#c0392b; }
+.results-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:5mm; margin:6mm 0; }
+.metric-card { background:#f0f7ff; border:1px solid #aed6f1; border-top:3px solid #2980b9; padding:5mm; text-align:center; border-radius:4px; }
+.metric-card .value { font-size:20pt; font-weight:700; color:#1a6fa0; line-height:1.2; }
+.metric-card .label { font-size:9pt; color:#555; text-transform:uppercase; letter-spacing:1px; margin-top:2mm; }
+.pipeline { display:flex; align-items:center; justify-content:center; gap:0; margin:6mm 0; flex-wrap:wrap; }
+.pipe-box { background:#2c3e50; color:white; padding:4mm 5mm; font-size:8.5pt; text-align:center; border-radius:4px; min-width:22mm; line-height:1.4; }
+.pipe-arrow { font-size:16pt; color:#2980b9; padding:0 2mm; }
+.highlight-box { background:#eafaf1; border-left:4px solid #27ae60; padding:4mm 6mm; margin:4mm 0; font-size:10.5pt; }
+.warning-box { background:#fef9e7; border-left:4px solid #f39c12; padding:4mm 6mm; margin:4mm 0; font-size:10.5pt; }
+ul, ol { margin:3mm 0 3mm 8mm; }
+li { margin-bottom:2mm; }
+.page-footer { margin-top:15mm; border-top:1px solid #ccc; padding-top:3mm; display:flex; justify-content:space-between; font-size:9pt; color:#888; }
+.figure-caption { font-size:9.5pt; font-style:italic; color:#666; text-align:center; margin-top:2mm; }
+</style>
+</head>
+<body>
+
+<!-- TITLE PAGE -->
+<div class="page">
+  <div class="title-page">
+    <div class="institution">Applied Machine Learning &middot; Term Project</div>
+    <div class="report-label">Technical Report &middot; Milestone 1 &middot; Mid-Semester</div>
+    <div class="main-title">Intelligent EV Charging Demand Prediction &amp; Agentic Infrastructure Planning</div>
+    <div class="subtitle">Milestone 1 &mdash; Data Pipeline &amp; Machine Learning Modeling</div>
+    <div class="divider"></div>
+    <div class="team-block">
+      <h3>Project Team</h3>
+      <p>
+        Krishna &nbsp;&middot;&nbsp; Data Pipeline &amp; Model Training<br>
+        Saumya Mishra &nbsp;&middot;&nbsp; Data Cleaning &amp; Imputation<br>
+        Rachit Gupta &nbsp;&middot;&nbsp; Feature Engineering &amp; EDA<br>
+        Aditya Rana &nbsp;&middot;&nbsp; Performance Evaluation
+      </p>
+    </div>
+    <div class="meta-row">
+      <span><strong>Submission:</strong> Mid-Semester</span>
+      <span><strong>Date:</strong> March 2026</span>
+      <span><strong>Framework:</strong> Scikit-Learn</span>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>EV Charging Demand Prediction &mdash; Milestone 1</span>
+    <span>Page 1</span>
+  </div>
+</div>
+
+<!-- PAGE 2: ABSTRACT + INTRO -->
+<div class="page">
+  <div class="abstract-box">
+    <h2>Abstract</h2>
+    <p>
+      The rapid adoption of electric vehicles (EVs) has introduced significant challenges in managing load on power grids and optimizing charging infrastructure placement. This report presents Milestone 1 of a two-phase AI-driven analytics system. We construct an end-to-end machine learning pipeline that consolidates real-world charging session data from three California stations (89,715 records), performs systematic data cleaning and median imputation, engineers time-series and lag-based features, and trains a Random Forest Regressor to predict EV charging demand. The model achieves an R&sup2; accuracy of <strong>88.65%</strong> with a Mean Absolute Error of <strong>0.0192 kW</strong>. The trained model is serialized for integration into the Milestone 2 agentic planning system.
+    </p>
+  </div>
+
+  <h1 class="section">1. Introduction</h1>
+  <p>Electric vehicles are transitioning from niche technology to mainstream transportation. This shift places unprecedented and often unpredictable demand on the electrical grid. Charging stations must be intelligently sited and operated, and grid operators require accurate demand forecasts to avoid overloads and service degradation.</p>
+  <p>This project, developed under free-tier API constraints and open-source tooling, proposes an end-to-end AI system addressing both predictive modeling (Milestone 1) and agentic infrastructure planning (Milestone 2). The present report covers Milestone 1 exclusively.</p>
+  <p>The primary objectives of Milestone 1 are:</p>
+  <ul>
+    <li>Consolidate and synchronize multi-source charging station time-series data from three California locations.</li>
+    <li>Perform rigorous cleaning, outlier inspection, and feature imputation.</li>
+    <li>Engineer temporally-aware features including lag variables and rolling averages.</li>
+    <li>Train and evaluate a supervised regression model for demand prediction.</li>
+    <li>Serialize the trained model for downstream agentic use in Milestone 2.</li>
+  </ul>
+
+  <h1 class="section">2. Domain Background</h1>
+  <p>EV charging demand is a multi-variate time-series problem influenced by temporal patterns (time-of-day, day-of-week), environmental conditions (weather), grid state (stability index, availability), electricity pricing, and the concurrent number of active charging sessions. Prior work demonstrates that tree-based ensemble models such as Random Forests perform competitively against deep learning approaches when appropriate lag features are constructed, particularly on shorter time horizons.</p>
+  <p>Our dataset derives from three real-world California charging stations (A, B, C), providing geographic and operational diversity. California's leadership in EV adoption makes it an ideal testbed for this research.</p>
+
+  <div class="page-footer">
+    <span>EV Charging Demand Prediction &mdash; Milestone 1</span>
+    <span>Page 2</span>
+  </div>
+</div>
+
+<!-- PAGE 3: DATASET + METHODOLOGY -->
+<div class="page">
+  <h1 class="section">3. Dataset Description</h1>
+  <table>
+    <caption>Table 1 &mdash; Dataset Summary After Consolidation</caption>
+    <thead><tr><th>Attribute</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td>Source Files</td><td>Charging_Station_A_Calif.csv, _B_Calif.csv, _C_Calif.csv</td></tr>
+      <tr><td>Total Records</td><td>89,715 rows</td></tr>
+      <tr><td>Stations</td><td>3 (IDs: 0, 1, 2 &mdash; California, USA)</td></tr>
+      <tr><td>Temporal Coverage</td><td>Multi-month time-series (hourly granularity)</td></tr>
+      <tr><td>Target Variable</td><td>EV Charging Demand (kW)</td></tr>
+      <tr><td>Key Input Features</td><td>Date/Time, Weather Conditions, Electricity Price ($/kWh), Grid Stability Index, Grid Availability, Number of EVs Charging</td></tr>
+      <tr><td>Missing Values</td><td>Present; resolved via median imputation</td></tr>
+    </tbody>
+  </table>
+
+  <h1 class="section">4. Methodology</h1>
+
+  <h2 class="subsection">4.1 System Architecture Overview</h2>
+  <div class="pipeline">
+    <div class="pipe-box">Raw CSV<br>(3 files)</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box">Data<br>Consolidation</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box">Cleaning &amp;<br>Imputation</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box">Feature<br>Engineering</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box">Model<br>Training</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-box">Evaluation &amp;<br>Export (.pkl)</div>
+  </div>
+  <p class="figure-caption">Figure 1 &mdash; End-to-end ML pipeline for Milestone 1.</p>
+
+  <h2 class="subsection">4.2 Phase 1 &mdash; Data Loading &amp; Consolidation (Krishna)</h2>
+  <p>Three station CSV files were loaded using <code>pandas.read_csv()</code>. A <code>Station_ID</code> column (0, 1, 2) was appended to preserve provenance. The <code>Date</code> and <code>Time</code> columns were concatenated into a unified <code>Datetime</code> column and parsed with <code>format='mixed'</code> to tolerate heterogeneous date formats. All DataFrames were concatenated and sorted by <code>[Station_ID, Datetime]</code>, yielding a single chronologically-ordered dataset of <strong>89,715 records</strong>.</p>
+
+  <h2 class="subsection">4.3 Phase 2 &mdash; Data Cleaning &amp; Imputation (Saumya Mishra)</h2>
+  <p>The auxiliary <code>Datetime_Str</code> column was dropped post-parsing. Missing numeric values were filled using column-wise <strong>median imputation</strong>, which is robust to the outliers visible in electricity price and grid stability distributions. The categorical <code>Grid Availability</code> feature was binary-encoded: Available = 1, Unavailable = 0.</p>
+  <p>Visual diagnostics included: (i) a null-value heatmap confirming no residual gaps post-imputation; (ii) boxplots of key numeric features; (iii) a KDE histogram of the target variable showing a right-skewed demand distribution; and (iv) pie chart and count plot for weather conditions and grid availability.</p>
+
+  <h2 class="subsection">4.4 Phase 3 &mdash; Feature Engineering &amp; EDA (Rachit Gupta)</h2>
+  <p>Temporal features extracted: <code>Hour</code> (0-23) and <code>DayOfWeek</code> (0-6) capture intra-day and intra-week cyclical patterns. Two lag features, <code>Demand_Lag_1</code> and <code>Demand_Lag_2</code>, encode demand at t-1 and t-2, computed within each station group to prevent cross-station leakage. A <code>Rolling_Avg_3h</code> feature captures recent short-term trend using a 3-step rolling mean shifted by 1 to avoid data leakage. Rows with NaN values were then dropped.</p>
+
+  <div class="page-footer">
+    <span>EV Charging Demand Prediction &mdash; Milestone 1</span>
+    <span>Page 3</span>
+  </div>
+</div>
+
+<!-- PAGE 4: MODEL + RESULTS -->
+<div class="page">
+  <h2 class="subsection">4.5 Phase 4 &mdash; Model Training (Krishna)</h2>
+  <p>An 80/20 random split partitioned the data into training and test sets. The feature matrix comprised eight engineered columns and the target was raw <code>EV Charging Demand (kW)</code>.</p>
+
+  <table>
+    <caption>Table 2 &mdash; Feature Set Used for Model Training</caption>
+    <thead><tr><th>#</th><th>Feature</th><th>Type</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>Hour</code></td><td>Temporal</td><td>Hour of day (0-23)</td></tr>
+      <tr><td>2</td><td><code>DayOfWeek</code></td><td>Temporal</td><td>Day of week (0=Mon, 6=Sun)</td></tr>
+      <tr><td>3</td><td><code>Demand_Lag_1</code></td><td>Autoregressive</td><td>Demand at t-1</td></tr>
+      <tr><td>4</td><td><code>Demand_Lag_2</code></td><td>Autoregressive</td><td>Demand at t-2</td></tr>
+      <tr><td>5</td><td><code>Rolling_Avg_3h</code></td><td>Trend</td><td>3-step rolling mean (shifted)</td></tr>
+      <tr><td>6</td><td><code>Electricity Price ($/kWh)</code></td><td>Economic</td><td>Real-time electricity price</td></tr>
+      <tr><td>7</td><td><code>Grid Stability Index</code></td><td>Grid State</td><td>Index of grid reliability</td></tr>
+      <tr><td>8</td><td><code>Number of EVs Charging</code></td><td>Usage</td><td>Concurrent active sessions</td></tr>
+    </tbody>
+  </table>
+
+  <p>A <strong>Random Forest Regressor</strong> with 100 estimators was trained using <code>n_estimators=100</code>, <code>random_state=42</code>, and <code>n_jobs=-1</code> for parallel processing.</p>
+
+  <h1 class="section">5. Results &amp; Evaluation (Aditya Rana)</h1>
+
+  <div class="results-grid">
+    <div class="metric-card"><div class="value">88.65%</div><div class="label">R&sup2; Score</div></div>
+    <div class="metric-card"><div class="value">0.0192</div><div class="label">MAE (kW)</div></div>
+    <div class="metric-card"><div class="value">89,715</div><div class="label">Total Records</div></div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>Key Finding:</strong> The model explains 88.65% of variance in EV charging demand with a mean absolute error of only 0.0192 kW, indicating highly precise predictions suitable for real-time grid management.
+  </div>
+
+  <table>
+    <caption>Table 3 &mdash; Model Performance Summary</caption>
+    <thead><tr><th>Metric</th><th>Value</th><th>Interpretation</th></tr></thead>
+    <tbody>
+      <tr><td>R&sup2; Score</td><td>0.8865 (88.65%)</td><td>High &mdash; model explains most variance</td></tr>
+      <tr><td>MAE</td><td>0.0192 kW</td><td>Very low &mdash; precise demand estimates</td></tr>
+      <tr><td>Train/Test Split</td><td>80% / 20%</td><td>Standard holdout evaluation</td></tr>
+      <tr><td>Algorithm</td><td>Random Forest (100 trees)</td><td>Ensemble, non-parametric regressor</td></tr>
+      <tr><td>Model File</td><td>ev_demand_timeseries.pkl</td><td>Serialized via joblib</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span>EV Charging Demand Prediction &mdash; Milestone 1</span>
+    <span>Page 4</span>
+  </div>
+</div>
+
+<!-- PAGE 5: DISCUSSION + CONCLUSION -->
+<div class="page">
+  <h1 class="section">6. Discussion</h1>
+
+  <h2 class="subsection">6.1 Strengths</h2>
+  <ul>
+    <li><strong>Multi-station generalization:</strong> Training on three geographically distinct stations prevents overfitting to any single station's patterns.</li>
+    <li><strong>Leakage-free lag design:</strong> Per-group lag computation ensures autoregressive features correctly represent each station's own history.</li>
+    <li><strong>Robust imputation:</strong> Median imputation is insensitive to price and stability outliers, avoiding biased estimates.</li>
+    <li><strong>Strong accuracy:</strong> An R&sup2; of 88.65% on unseen test data confirms well-calibrated feature engineering.</li>
+  </ul>
+
+  <h2 class="subsection">6.2 Limitations &amp; Recommendations</h2>
+  <div class="warning-box">
+    <strong>Validation Note:</strong> The MAE of 0.0192 kW is exceptionally low and should be verified against raw kW units to confirm no unintended normalization occurred during preprocessing before production deployment.
+  </div>
+  <ul>
+    <li>Cyclical temporal features (sine/cosine of hour and day) are not used; incorporating them could improve accuracy at period boundaries.</li>
+    <li>Weather conditions are present in raw data but unused in the final feature set.</li>
+    <li>No hyperparameter tuning was performed; cross-validated GridSearchCV could push R&sup2; above 90%.</li>
+    <li>Gradient Boosting (XGBoost/LightGBM) should be benchmarked as specified in project requirements.</li>
+  </ul>
+
+  <h1 class="section">7. Conclusion</h1>
+  <p>This report presents the complete Milestone 1 pipeline for the Intelligent EV Charging Demand Prediction system. A rigorous six-phase workflow was implemented collaboratively by a four-member team. The resulting Random Forest Regressor achieves an R&sup2; of 88.65% and MAE of 0.0192 kW across 89,715 real-world charging records from California.</p>
+  <p>The trained model (<code>ev_demand_timeseries.pkl</code>) is serialized and ready for Milestone 2, where a LangGraph-based agentic system with RAG (Chroma/FAISS) and an open-source LLM will generate structured infrastructure recommendations, deployed to Hugging Face Spaces or Streamlit Community Cloud.</p>
+
+  <h1 class="section">8. References</h1>
+  <ol>
+    <li>Breiman, L. (2001). Random Forests. <em>Machine Learning</em>, 45(1), 5-32.</li>
+    <li>Scikit-learn Developers. (2024). <em>scikit-learn: Machine Learning in Python</em>. scikit-learn.org.</li>
+    <li>California Energy Commission. (2023). <em>Electric Vehicle Charging Infrastructure Assessment</em>. energy.ca.gov.</li>
+    <li>LangChain / LangGraph Documentation. (2024). <em>LangGraph: Stateful, Multi-Actor Applications with LLMs</em>.</li>
+    <li>Pandas Development Team. (2024). <em>pandas: Powerful Python Data Analysis Toolkit</em>. pandas.pydata.org.</li>
+  </ol>
+
+  <br>
+  <table>
+    <caption>Table 4 &mdash; Team Contribution Summary</caption>
+    <thead><tr><th>Team Member</th><th>Phase(s)</th><th>Contribution</th></tr></thead>
+    <tbody>
+      <tr><td>Krishna</td><td>1 &amp; 4</td><td>Data pipeline design, datetime consolidation, model training</td></tr>
+      <tr><td>Saumya Mishra</td><td>2</td><td>Missing value imputation, binary encoding, EDA visualizations</td></tr>
+      <tr><td>Rachit Gupta</td><td>3</td><td>Lag &amp; rolling feature engineering, autocorrelation analysis</td></tr>
+      <tr><td>Aditya Rana</td><td>5</td><td>Model evaluation, metrics reporting, feature importance analysis</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span>EV Charging Demand Prediction &mdash; Milestone 1</span>
+    <span>Page 5</span>
+  </div>
+</div>
+
+</body>
+</html>
