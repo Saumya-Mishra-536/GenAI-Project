@@ -1,168 +1,136 @@
-AI-Driven Analytics System for EV Infrastructure Planning
+# 🔋 Intelligent EV Charging Demand Prediction & Agentic Infrastructure Planning
+
+> **Milestone 1 — Data Pipeline & ML Modeling**  
+> Mid-Semester Submission | Applied Machine Learning
+
+---
 
 ## 📌 Project Overview
 
-This project builds an **AI-driven analytics system** for **Electric Vehicle (EV) infrastructure planning**. It combines classical machine learning with agentic AI to predict charging demand and generate smart infrastructure recommendations.
+This project builds an AI-driven analytics system for Electric Vehicle (EV) infrastructure planning.
 
-The project is divided into **2 Milestones:**
-
-### 🏁 Milestone 1 – Predicting EV Charging Demand (Classical ML)
-Using historical charging station data, time, and location features to **predict EV charging demand** with classical machine learning models.
-
-### 🤖 Milestone 2 – Agentic AI Assistant (GenAI)
-Evolving the system into an **agentic AI assistant** that:
-- Reasons about charging demand patterns
-- Retrieves infrastructure planning guidelines
-- Generates structured recommendations for EV infrastructure
+- **Milestone 1 (Mid-Sem):** Classical ML pipeline to predict EV charging demand using historical station data  
+- **Milestone 2 (End-Sem):** Agentic AI assistant using LangGraph + RAG to generate infrastructure recommendations
 
 ---
 
-## 📁 Project Structure
+## 📂 Dataset
 
+- 3 real-world California charging stations (A, B, C)
+- **89,715 total records** after consolidation
+- Features: Date/Time, Weather, Electricity Price, Grid Stability Index, Grid Availability, Number of EVs Charging
+- Target: `EV Charging Demand (kW)`
+
+---
+
+## ⚙️ Tech Stack
+
+| Category | Tools |
+|----------|-------|
+| Language | Python 3 |
+| ML | Scikit-Learn (Random Forest) |
+| Data | Pandas, NumPy |
+| Visualization | Matplotlib, Seaborn |
+| Environment | Google Colab |
+| Model Export | Joblib |
+
+---
+
+## 🔄 Pipeline
 ```
-GenAI-Project/
-│
-├── data/
-│   └── ev_charging_patterns.csv       # Raw dataset (from Kaggle)
-│
-├── output/
-│   ├── chart1_charger_type.png        # Sessions by charger type
-│   ├── chart2_energy_dist.png         # Energy consumed distribution
-│   ├── chart3_hourly.png              # Sessions by hour of day
-│   ├── chart4_cost_by_city.png        # Avg charging cost by city
-│   ├── chart5_soc_delta.png           # SoC delta by start level
-│   ├── chart6_weekend.png             # Weekday vs weekend cost
-│   └── ev_engineered.csv              # Dataset with engineered features
-│
-└── analysis/
-    └── ev_analysis.py                 # Feature engineering + EDA script
+Raw CSV (3 files) → Consolidation → Cleaning & Imputation → Feature Engineering → Model Training → Evaluation → Export (.pkl)
 ```
 
----
+### Phase 1 — Data Loading
+- Loaded 3 station CSVs and assigned `Station_ID`
+- Unified `Date` + `Time` into a single `Datetime` column
+- Consolidated and sorted 89,715 records
 
-## 📊 Dataset Information
+### Phase 2 — Data Cleaning
+- Median imputation for missing values
+- Binary encoding of `Grid Availability` (Available=1, Unavailable=0)
+- EDA: heatmaps, boxplots, KDE histogram, pie charts
 
-- **Source:** [Kaggle – Electric Vehicle Charging Patterns](https://www.kaggle.com/datasets/valakhorasani/electric-vehicle-charging-patterns)
-- **Size:** 1,320 rows × 20 columns
-- **License:** Apache 2.0
+### Phase 3 — Feature Engineering
+- Extracted `Hour` and `DayOfWeek` from datetime
+- Created lag features: `Demand_Lag_1`, `Demand_Lag_2`
+- Created `Rolling_Avg_3h` (3-step rolling mean, shifted to avoid leakage)
 
-### Key Columns
+### Phase 4 — Model Training
+- 80/20 train-test split (`random_state=42`)
+- Trained `RandomForestRegressor` with 100 estimators
 
-| Column | Description |
-|--------|-------------|
-| Vehicle Model | EV model (Tesla Model 3, Nissan Leaf, etc.) |
-| Battery Capacity (kWh) | Total battery size |
-| Charging Station Location | City (New York, LA, Houston, etc.) |
-| Charging Start/End Time | Session timestamps |
-| Energy Consumed (kWh) | Energy added during session |
-| Charging Duration (hours) | Time taken to charge |
-| Charging Cost (USD) | Total session cost |
-| State of Charge Start/End % | Battery % at start and end |
-| Distance Driven (km) | Distance since last charge |
-| Temperature (°C) | Ambient temperature |
-| Charger Type | Level 1 / Level 2 / DC Fast Charger |
-| User Type | Commuter / Casual Driver / Long-Distance Traveler |
+### Phase 5 — Evaluation
+- Computed R² Score and MAE
+- Plotted feature importances
 
 ---
 
-## 🏁 Milestone 1 – Feature Engineering & EDA
+## 📊 Results
 
-### What was done
-- Cleaned and explored the raw dataset
-- Engineered new features from raw data
-- Generated visualizations to understand patterns
-
-### New Features Created
-
-| Feature | Description |
-|---------|-------------|
-| `Start Hour` | Hour the session started (0–23) |
-| `Start Month` | Month of the session |
-| `Is Weekend` | 1 = Weekend, 0 = Weekday |
-| `SoC Delta` | Battery % gained (End − Start) |
-| `Cost per kWh` | Charging cost efficiency |
-| `Battery Utilisation (%)` | % of battery capacity used |
-| `SoC Start Level` | Critical / Low / Medium / High |
-
-### Charts Generated
-
-| Chart | Description |
-|-------|-------------|
-| `chart1_charger_type.png` | Sessions per charger type |
-| `chart2_energy_dist.png` | Energy consumed distribution |
-| `chart3_hourly.png` | Sessions across hours of the day |
-| `chart4_cost_by_city.png` | Avg charging cost by city |
-| `chart5_soc_delta.png` | SoC gained by starting charge level |
-| `chart6_weekend.png` | Weekday vs weekend cost comparison |
+| Metric | Value |
+|--------|-------|
+| R² Score | **88.65%** |
+| Mean Absolute Error | **0.0192 kW** |
+| Total Records | 89,715 |
+| Algorithm | Random Forest (100 trees) |
 
 ---
 
-## 🤖 Milestone 2 – Agentic AI Assistant *(Coming Soon)*
+## 🧠 Features Used
 
-The system will evolve into an agentic AI assistant that:
-- Analyzes demand patterns from Milestone 1 predictions
-- Retrieves EV infrastructure planning guidelines using RAG (Retrieval-Augmented Generation)
-- Generates structured, location-aware recommendations for where and how to expand EV charging infrastructure
+| # | Feature | Type |
+|---|---------|------|
+| 1 | `Hour` | Temporal |
+| 2 | `DayOfWeek` | Temporal |
+| 3 | `Demand_Lag_1` | Autoregressive |
+| 4 | `Demand_Lag_2` | Autoregressive |
+| 5 | `Rolling_Avg_3h` | Trend |
+| 6 | `Electricity Price ($/kWh)` | Economic |
+| 7 | `Grid Stability Index` | Grid State |
+| 8 | `Number of EVs Charging` | Usage |
 
 ---
 
-## ▶️ How to Run
-
-### 1. Clone the Repository
+## 🚀 How to Run
 ```bash
-git clone https://github.com/your-username/GenAI-Project.git
-cd GenAI-Project
+# 1. Clone the repo
+git clone https://github.com/your-repo/ev-charging-prediction.git
+
+# 2. Install dependencies
+pip install pandas numpy scikit-learn matplotlib seaborn joblib
+
+# 3. Open notebook in Google Colab and upload CSV files when prompted
 ```
 
-### 2. Install Dependencies
-```bash
-pip3 install pandas numpy matplotlib
+---
+
+## 💾 Model Export
+
+The trained model is saved as:
 ```
-
-### 3. Run the Script
-```bash
-cd analysis
-python3 ev_analysis.py
+ev_demand_timeseries.pkl
 ```
-
-### 4. View Output
-- Charts saved to the `output/` folder as `.png` files
-- Engineered dataset saved as `output/ev_engineered.csv`
-- Summary tables printed in the terminal
+Ready for integration into **Milestone 2** agentic planning system.
 
 ---
 
-## 🧰 Tech Stack
+## 🔮 Milestone 2 Preview
 
-| Tool | Purpose |
-|------|---------|
-| Python 3 | Core language |
-| Pandas | Data manipulation & feature engineering |
-| NumPy | Numerical operations |
-| Matplotlib | Data visualization |
-| scikit-learn *(Milestone 1)* | ML models for demand prediction |
-| LangChain / OpenAI *(Milestone 2)* | Agentic AI assistant |
+- **Framework:** LangGraph
+- **RAG:** Chroma / FAISS
+- **LLM:** Open-source (free tier)
+- **UI:** Streamlit / Gradio
+- **Hosting:** Hugging Face Spaces / Streamlit Community Cloud
 
 ---
 
-## 🌍 Real-World Impact
+## 📋 Constraints
 
-This project addresses a **real-world sustainability problem** — the need to plan EV charging infrastructure efficiently as EV adoption grows. By predicting demand and generating AI-driven recommendations, this system can help:
-- City planners decide where to install new charging stations
-- Energy providers forecast load on the grid
-- Businesses optimize charging station placement
-
----
-
-## 📝 Notes
-
-- Dataset is for **learning and ML practice only** — not for academic research
-- Run all commands from inside the `analysis/` folder
-- Milestone 2 will be updated as the project progresses
+- ✅ Team Size: 4 Students
+- ✅ API Budget: Free Tier Only
+- ✅ No localhost-only demos (hosted deployment required for Milestone 2)
 
 ---
 
-## 👩‍💻 Author
-
-**Saumya Mishra**
-AI-Driven EV Infrastructure Planning — GenAI Project
+*Built with ❤️ for Applied ML — March 2026*
