@@ -7,16 +7,99 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:Georgia,serif; font-size:12pt; line-height:1.7; background:#f0f0eb; color:#1a1a1a; }
 .page { width:210mm; min-height:297mm; margin:20px auto; background:white; padding:22mm 20mm; box-shadow:0 4px 20px rgba(0,0,0,0.15); }
-.title-page { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:260mm; text-align:center; }
-.institution { font-size:10pt; letter-spacing:2px; text-transform:uppercase; color:#666; margin-bottom:8mm; }
-.report-label { font-size:9pt; letter-spacing:3px; text-transform:uppercase; color:#999; border:1px solid #ccc; padding:4px 14px; margin-bottom:10mm; }
-.main-title { font-size:22pt; font-weight:700; line-height:1.3; color:#1a1a2e; max-width:140mm; margin-bottom:4mm; }
-.subtitle { font-size:13pt; color:#555; font-style:italic; margin-bottom:16mm; }
-.divider { width:60mm; height:2px; background:#2980b9; margin:0 auto 16mm; }
-.team-block { background:#f8f9fa; border-left:4px solid #2980b9; padding:8mm 10mm; text-align:left; width:120mm; margin-bottom:12mm; }
-.team-block h3 { font-size:9pt; letter-spacing:2px; text-transform:uppercase; color:#888; margin-bottom:4mm; }
-.team-block p { font-size:11pt; line-height:1.9; color:#2c3e50; }
-.meta-row { display:flex; gap:20mm; font-size:10pt; color:#666; }
+
+/* ── COVER PAGE ── */
+.title-page {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  min-height:257mm; text-align:center; padding:0;
+  position:relative; overflow:hidden;
+}
+.cover-top-bar {
+  position:absolute; top:0; left:0; right:0; height:52mm;
+  background:linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+}
+.cover-top-bar::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:5px;
+  background:linear-gradient(to right, #2980b9, #27ae60, #2980b9);
+}
+.cover-bottom-bar {
+  position:absolute; bottom:0; left:0; right:0; height:18mm;
+  background:linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%);
+}
+.cover-bottom-bar::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(to right, #2980b9, #27ae60, #2980b9);
+}
+.cover-content {
+  position:relative; z-index:2; display:flex; flex-direction:column;
+  align-items:center; width:100%; padding:0 10mm;
+}
+.cover-top-text {
+  margin-top:10mm; margin-bottom:32mm;
+}
+.cover-top-text .tag {
+  display:inline-block; font-size:8pt; letter-spacing:3px;
+  text-transform:uppercase; color:rgba(255,255,255,0.6);
+  border:1px solid rgba(255,255,255,0.25); padding:3px 12px;
+  border-radius:20px; margin-bottom:5mm;
+}
+.cover-top-text .course {
+  font-size:10pt; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(255,255,255,0.85); font-weight:600;
+}
+.cover-icon {
+  width:16mm; height:16mm; background:linear-gradient(135deg,#2980b9,#27ae60);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  margin-bottom:6mm; font-size:22pt; box-shadow:0 4px 20px rgba(41,128,185,0.4);
+}
+.main-title {
+  font-size:23pt; font-weight:700; line-height:1.25; color:#1a1a2e;
+  max-width:145mm; margin-bottom:4mm;
+}
+.subtitle {
+  font-size:11.5pt; color:#666; font-style:italic; margin-bottom:8mm;
+}
+.accent-line {
+  width:50mm; height:3px; margin:0 auto 10mm;
+  background:linear-gradient(to right, #2980b9, #27ae60);
+  border-radius:2px;
+}
+.team-block {
+  background:#f8f9fa; border-left:4px solid #2980b9;
+  padding:6mm 10mm; text-align:left; width:130mm; margin-bottom:8mm;
+  border-radius:0 6px 6px 0;
+  box-shadow:0 2px 12px rgba(0,0,0,0.07);
+}
+.team-block h3 {
+  font-size:8pt; letter-spacing:2.5px; text-transform:uppercase;
+  color:#2980b9; margin-bottom:4mm; font-weight:700;
+}
+.team-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:2mm 6mm;
+}
+.team-member {
+  display:flex; flex-direction:column;
+}
+.team-member .name {
+  font-size:10.5pt; font-weight:700; color:#1a1a2e;
+}
+.team-member .role {
+  font-size:8.5pt; color:#777;
+}
+.meta-pills {
+  display:flex; gap:3mm; margin-bottom:12mm;
+}
+.meta-pill {
+  background:#1a1a2e; color:white; padding:3px 10px;
+  border-radius:20px; font-size:8.5pt;
+}
+.meta-pill span { color:#7fb3d3; margin-right:3px; }
+.cover-bottom-text {
+  position:absolute; bottom:5mm; color:rgba(255,255,255,0.5);
+  font-size:8pt; letter-spacing:1px;
+}
+
+/* ── REST OF REPORT ── */
 .abstract-box { border:1px solid #bbb; padding:6mm 8mm; margin:8mm 0 10mm 0; background:#fdfdfd; }
 .abstract-box h2 { font-size:10pt; letter-spacing:2px; text-transform:uppercase; text-align:center; margin-bottom:4mm; color:#333; }
 .abstract-box p { font-size:10.5pt; text-align:justify; }
@@ -42,46 +125,73 @@ ul, ol { margin:3mm 0 3mm 8mm; }
 li { margin-bottom:2mm; }
 .page-footer { margin-top:15mm; border-top:1px solid #ccc; padding-top:3mm; display:flex; justify-content:space-between; font-size:9pt; color:#888; }
 .figure-caption { font-size:9.5pt; font-style:italic; color:#666; text-align:center; margin-top:2mm; }
+
+/* ── REMOVE browser header/footer when printing ── */
+@page { margin:0; size:A4; }
+@media print {
+  body { background:white; }
+  .page { box-shadow:none; margin:0; page-break-after:always; }
+}
 </style>
 </head>
 <body>
 
-<!-- TITLE PAGE -->
-<div class="page">
+<!-- ═══════ COVER PAGE ═══════ -->
+<div class="page" style="padding:0;">
   <div class="title-page">
-    <div class="institution">Applied Machine Learning &middot; Team Project</div>
-    <div class="report-label">Technical Report &middot; Milestone 1 &middot; Mid-Semester</div>
-    <div class="main-title">Intelligent EV Charging Demand Prediction &amp; Agentic Infrastructure Planning</div>
-    <div class="subtitle">Milestone 1 &mdash; Data Pipeline &amp; Machine Learning Modeling</div>
-    <div class="divider"></div>
-    <div class="team-block">
-      <h3>Project Team</h3>
-      <p>
-        Krishna &nbsp;&middot;&nbsp; Data Pipeline &amp; Model Training<br>
-        Saumya Mishra &nbsp;&middot;&nbsp; Data Cleaning &amp; Imputation<br>
-        Rachit Gupta &nbsp;&middot;&nbsp; Feature Engineering &amp; EDA<br>
-        Aditya Rana &nbsp;&middot;&nbsp; Performance Evaluation
-      </p>
+    <div class="cover-top-bar"></div>
+    <div class="cover-bottom-bar"></div>
+
+    <div class="cover-content">
+      <div class="cover-top-text">
+        <div class="tag">Mid-Semester &middot; Milestone 1</div><br>
+        <div class="course">Applied Machine Learning &middot; Term Project</div>
+      </div>
+
+      <div class="cover-icon">⚡</div>
+
+      <div class="main-title">Intelligent EV Charging Demand Prediction &amp; Agentic Infrastructure Planning</div>
+      <div class="subtitle">Milestone 1 &mdash; Data Pipeline &amp; Machine Learning Modeling</div>
+      <div class="accent-line"></div>
+
+      <div class="team-block">
+        <h3>Project Team</h3>
+        <div class="team-grid">
+          <div class="team-member">
+            <span class="name">Krishna</span>
+            <span class="role">Data Pipeline &amp; Model Training</span>
+          </div>
+          <div class="team-member">
+            <span class="name">Saumya Mishra</span>
+            <span class="role">Data Cleaning &amp; Imputation</span>
+          </div>
+          <div class="team-member">
+            <span class="name">Rachit Gupta</span>
+            <span class="role">Feature Engineering &amp; EDA</span>
+          </div>
+          <div class="team-member">
+            <span class="name">Aditya Rana</span>
+            <span class="role">Performance Evaluation &amp; Development</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-pills">
+        <div class="meta-pill"><span>Submission</span>Mid-Semester</div>
+        <div class="meta-pill"><span>Date</span>March 2026</div>
+        <div class="meta-pill"><span>Framework</span>Scikit-Learn</div>
+      </div>
     </div>
-    <div class="meta-row">
-      <span><strong>Submission:</strong> Mid-Semester</span>
-      <span><strong>Date:</strong> March 2026</span>
-      <span><strong>Framework:</strong> Scikit-Learn</span>
-    </div>
-  </div>
-  <div class="page-footer">
-    <span>EV Charging Demand Prediction &mdash; Milestone 1</span>
-    <span>Page 1</span>
+
+    <div class="cover-bottom-text">EV Charging Demand Prediction &mdash; Milestone 1 &mdash; Confidential Draft</div>
   </div>
 </div>
 
-<!-- PAGE 2: ABSTRACT + INTRO -->
+<!-- ═══════ PAGE 2: ABSTRACT + INTRO ═══════ -->
 <div class="page">
   <div class="abstract-box">
     <h2>Abstract</h2>
-    <p>
-      The rapid adoption of electric vehicles (EVs) has introduced significant challenges in managing load on power grids and optimizing charging infrastructure placement. This report presents Milestone 1 of a two-phase AI-driven analytics system. We construct an end-to-end machine learning pipeline that consolidates real-world charging session data from three California stations (89,715 records), performs systematic data cleaning and median imputation, engineers time-series and lag-based features, and trains a Random Forest Regressor to predict EV charging demand. The model achieves an R&sup2; accuracy of <strong>88.65%</strong> with a Mean Absolute Error of <strong>0.0192 kW</strong>. The trained model is serialized for integration into the Milestone 2 agentic planning system.
-    </p>
+    <p>The rapid adoption of electric vehicles (EVs) has introduced significant challenges in managing load on power grids and optimizing charging infrastructure placement. This report presents Milestone 1 of a two-phase AI-driven analytics system. We construct an end-to-end machine learning pipeline that consolidates real-world charging session data from three California stations (89,715 records), performs systematic data cleaning and median imputation, engineers time-series and lag-based features, and trains a Random Forest Regressor to predict EV charging demand. The model achieves an R&sup2; accuracy of <strong>88.65%</strong> with a Mean Absolute Error of <strong>0.0192 kW</strong>. The trained model is serialized for integration into the Milestone 2 agentic planning system.</p>
   </div>
 
   <h1 class="section">1. Introduction</h1>
@@ -106,7 +216,7 @@ li { margin-bottom:2mm; }
   </div>
 </div>
 
-<!-- PAGE 3: DATASET + METHODOLOGY -->
+<!-- ═══════ PAGE 3: DATASET + METHODOLOGY ═══════ -->
 <div class="page">
   <h1 class="section">3. Dataset Description</h1>
   <table>
@@ -157,7 +267,7 @@ li { margin-bottom:2mm; }
   </div>
 </div>
 
-<!-- PAGE 4: MODEL + RESULTS -->
+<!-- ═══════ PAGE 4: MODEL + RESULTS ═══════ -->
 <div class="page">
   <h2 class="subsection">4.5 Phase 4 &mdash; Model Training (Krishna)</h2>
   <p>An 80/20 random split partitioned the data into training and test sets. The feature matrix comprised eight engineered columns and the target was raw <code>EV Charging Demand (kW)</code>.</p>
@@ -209,7 +319,7 @@ li { margin-bottom:2mm; }
   </div>
 </div>
 
-<!-- PAGE 5: DISCUSSION + CONCLUSION -->
+<!-- ═══════ PAGE 5: DISCUSSION + CONCLUSION ═══════ -->
 <div class="page">
   <h1 class="section">6. Discussion</h1>
 
@@ -253,7 +363,7 @@ li { margin-bottom:2mm; }
       <tr><td>Krishna</td><td>1 &amp; 4</td><td>Data pipeline design, datetime consolidation, model training</td></tr>
       <tr><td>Saumya Mishra</td><td>2</td><td>Missing value imputation, binary encoding, EDA visualizations</td></tr>
       <tr><td>Rachit Gupta</td><td>3</td><td>Lag &amp; rolling feature engineering, autocorrelation analysis</td></tr>
-      <tr><td>Aditya Rana</td><td>5</td><td>Model evaluation, metrics reporting, feature importance analysis</td></tr>
+      <tr><td>Aditya Rana</td><td>5</td><td>Model evaluation, metrics reporting, feature importance, development</td></tr>
     </tbody>
   </table>
 
